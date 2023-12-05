@@ -11,7 +11,7 @@ public class WiseSayingController {
     List<WiseSaying> wiseSayingList = new ArrayList<>();
     int lastId = 1;
 
-    public void create () {
+    public void create() {
         System.out.print("명언 : ");
         String content = Container.getSc().nextLine().trim();
         System.out.print("작가 : ");
@@ -25,7 +25,7 @@ public class WiseSayingController {
         lastId++;
     }
 
-    public void list () {
+    public void list() {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
 
@@ -38,27 +38,31 @@ public class WiseSayingController {
 
         int id = _getIntParam(request.getParams("id"));
 
-        for (int i = 0; i < wiseSayingList.size(); i++){
-            if (wiseSayingList.get(i).getId() == id) {
-                wiseSayingList.remove(wiseSayingList.get(i));
-
-            }
-        }
+        WiseSaying ws = _getFindById(id);
+        wiseSayingList.remove(ws);
 
 
-        System.out.println(id+"번 명언이 삭제되었습니다.");
+        System.out.println(id + "번 명언이 삭제되었습니다.");
 
     }
 
-    private int _getIntParam(String id){
+    private int _getIntParam(String id) {
         int defaultValue = -1;
         try {
             return Integer.parseInt(id);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             System.out.println("id는 정수만 입력이 가능합니다.");
             return defaultValue;
         }
 
+    }
+
+    private WiseSaying _getFindById(int id) {
+        for (int i = 0; i < wiseSayingList.size(); i++) {
+            if (wiseSayingList.get(i).getId() == id) {
+                return wiseSayingList.get(i);
+            }
+        }
+        return null;
     }
 }
